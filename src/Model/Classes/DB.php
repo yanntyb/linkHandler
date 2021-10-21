@@ -7,7 +7,7 @@ use PDOException;
 class DB
 {
     private string $host = "localhost";
-    private string $db = "link_handler";
+    private string $db = "link";
     private string $user = "root";
     private string $password = "";
 
@@ -15,7 +15,7 @@ class DB
 
     public function __construct() {
         try{
-            self::$dbInstance = new PDO("mysql:host=$this->host;dbname=$this->db;charset=utf8", $this->user, $this->password);
+            self::$dbInstance = new PDO("mysql:host=$this->host;port=3308;dbname=$this->db;charset=utf8", $this->user, $this->password);
             self::$dbInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             //to avoid getting 2 times the same result
             self::$dbInstance->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
