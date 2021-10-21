@@ -1,0 +1,15 @@
+{
+    "name": "yann/app",
+    "autoload": {
+        "psr-4": {
+            "Yanntyb\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "yann tyb",
+            "email": "yanntyb.lbc@gmail.com"
+        }
+    ],
+    "require": {}
+}

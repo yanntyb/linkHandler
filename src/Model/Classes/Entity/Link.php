@@ -1,0 +1,86 @@
+<?php
+
+use Yanntyb\App\Model\Traits\GlobalEntityTrait;
+
+class link
+{
+    use GlobalEntityTrait;
+    private string $href;
+    private string $title;
+    private string $target;
+    private string $name;
+
+    /**
+     * @return string
+     */
+    public function getHref(): string
+    {
+        return $this->href;
+    }
+
+    /**
+     * @param string $href
+     * @return link
+     */
+    public function setHref(string $href): link
+    {
+        $this->href = $href;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     * @return link
+     */
+    public function setTitle(string $title): link
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTarget(): string
+    {
+        return $this->target;
+    }
+
+    /**
+     * @param string $target
+     * @return link
+     */
+    public function setTarget(string $target): link
+    {
+        $this->target = $target;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return link
+     */
+    public function setName(string $name): link
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+
+}

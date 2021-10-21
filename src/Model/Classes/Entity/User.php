@@ -1,0 +1,86 @@
+<?php
+
+use Yanntyb\App\Model\Traits\GlobalEntityTrait;
+
+class User
+{
+    use GlobalEntityTrait;
+    private string $nom;
+    private string $prenon;
+    private string $mail;
+    private string $pass;
+
+    /**
+     * @return string
+     */
+    public function getNom(): string
+    {
+        return $this->nom;
+    }
+
+    /**
+     * @param string $nom
+     * @return User
+     */
+    public function setNom(string $nom): User
+    {
+        $this->nom = $nom;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrenon(): string
+    {
+        return $this->prenon;
+    }
+
+    /**
+     * @param string $prenon
+     * @return User
+     */
+    public function setPrenon(string $prenon): User
+    {
+        $this->prenon = $prenon;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMail(): string
+    {
+        return $this->mail;
+    }
+
+    /**
+     * @param string $mail
+     * @return User
+     */
+    public function setMail(string $mail): User
+    {
+        $this->mail = $mail;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPass(): string
+    {
+        return $this->pass;
+    }
+
+    /**
+     * @param string $pass
+     * @return User
+     */
+    public function setPass(string $pass): User
+    {
+        $this->pass = $pass;
+        return $this;
+    }
+
+
+}
