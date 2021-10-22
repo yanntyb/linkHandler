@@ -11,5 +11,9 @@
             "email": "yanntyb.lbc@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+      "ext-pdo": "*",
+        "muffeen/url-status": "^0.2.0",
+        "symfony/var-dumper": "^5.3"
+    }
 }

@@ -3,7 +3,7 @@
     <div id="form">
         <form action="/?page=form&sub=link" method="POST">
             <div>
-                <input name="href" type="text" placeholder="link">
+                <input name="href" type="text" placeholder="http://www.site.fr">
             </div>
             <div>
                 <input name="title" type="text" placeholder="title">

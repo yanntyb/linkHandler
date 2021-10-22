@@ -17,7 +17,14 @@
     if($var && count($var) > 0){
         foreach($var as $link){?>
             <div class="link-cont">
-                <div class="link-img"></div>
+                <div class="link-img">
+                    <div class="link-action"><?php
+                        if(isset($_SESSION["user"])){?>
+                            <a href="index.php?page=action&sub=delete&id=<?= $link->getId() ?>" class="fas fa-times"></a>
+                            <a href="index.php?page=action&sub=edit&id=<?= $link->getId() ?>" class="fas fa-pen"></a><?php
+                        }?>
+                    </div>
+                </div>
                 <div class="link-title">
                     <a class="link-link" title="<?= $link->getTitle() ?>" href="<?= $link->getHref() ?>" target="<?= $link->getTarget() ?>"><?= $link->getName() ?></a>
                 </div>

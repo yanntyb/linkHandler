@@ -15,7 +15,7 @@
 
 }
 
-#action a {
+#action > a {
     display: flex;
     align-items: center;
     color: #4E69B1;
@@ -70,4 +70,23 @@
     color: #0067A0;
     text-decoration: none;
     font-size: 150%;
+}
+
+.link-action a{
+    padding: 2%;
+    color: black;
+    text-decoration: none;
+}
+
+.link-action a:hover{
+    cursor: pointer;
+    color: red;
+}
+
+.link-action{
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }

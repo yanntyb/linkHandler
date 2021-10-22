@@ -14,10 +14,6 @@ class HomeController
         $this->render("Home/home","Links Handler", $links);
     }
 
-    public function render_form(){
-        $this->render("Home/add","Add a link");
-    }
-
     public function render_login(){
         $this->render("Home/login", "Login");
     }

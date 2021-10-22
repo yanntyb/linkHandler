@@ -24,12 +24,7 @@ if(isset($_GET["page"])){
                         break;
                     case "add":
                         if(isset($_SESSION["user"])){
-                            if(unserialize($_SESSION["user"])->getId()){
-                                $controller->render_form();
-                            }
-                            else{
-                                header("Location: index.php");
-                            }
+                            (new LinkController)->render_form();
                         }
                         else{
                             header("Location: index.php");
@@ -73,9 +68,47 @@ if(isset($_GET["page"])){
                             }
                         }
                         break;
+                    case "link_edit":
+                        $keys = ["href", "title", "target", "name", "id"];
+                        if((new FormController)->checkForm($_POST, $keys)){
+                            (new LinkController)->modify_link($_POST, $keys);
+                            header("Location: index.php?page=home");
+                        }
+                        else{
+                            header("Location: index.php?page=home&sub=add");
+                        }
+                        break;
                 }
             }
             break;
+        case "action":
+            $controller = new LinkController;
+            if(isset($_GET["sub"])) {
+                if(isset($_GET["id"])){
+                    $link = $controller->exist($_GET["id"]);
+                    if($link){
+                        if(isset($_SESSION["user"])){
+                            switch ($_GET["sub"]){
+                                case "delete":
+                                    $controller->delete($link);
+                                    header("Location: index.php");
+                                    break;
+                                case "edit":
+                                    $controller->render_edit($link);
+                                    break;
+                            }
+                        }
+                        else{
+                            header("Location: index.php");
+                        }
+                    }
+                    else{
+                        header("Location: index.php");
+                    }
+                }
+
+            }
+
     }
 }
 else{
