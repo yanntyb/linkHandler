@@ -12,3 +12,24 @@ body{
 .hidden{
     display: none;
 }
+
+#error{
+    position: absolute;
+    width: 100%;
+    animation: error 2s;
+    text-align: center;
+    background-color: red;
+    animation-fill-mode: forwards;
+}
+
+@keyframes error {
+    from{
+        height: 5%;
+        display: block;
+    }
+    to{
+        height: 0;
+        display: none;
+        color: white;
+    }
+}

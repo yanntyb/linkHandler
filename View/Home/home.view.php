@@ -14,8 +14,8 @@
 </div>
 <div id="main">
     <?php
-    if($var && count($var) > 0){
-        foreach($var as $link){?>
+    if($var["links"] && count($var["links"]) > 0){
+        foreach($var["links"] as $link){?>
             <div class="link-cont">
                 <div class="link-img">
                     <div class="link-action"><?php

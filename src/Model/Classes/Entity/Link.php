@@ -11,6 +11,7 @@ class link
     private string $title;
     private string $target;
     private string $name;
+    private User $user;
 
     /**
      * @return string
@@ -83,6 +84,26 @@ class link
         $this->name = $name;
         return $this;
     }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     * @return link
+     */
+    public function setUser(User $user): link
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+
 
 
 }

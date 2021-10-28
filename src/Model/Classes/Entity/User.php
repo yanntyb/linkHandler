@@ -11,6 +11,7 @@ class User
     private string $prenon;
     private string $mail;
     private string $pass;
+    private int $admin;
 
     /**
      * @return string
@@ -83,6 +84,26 @@ class User
         $this->pass = $pass;
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getAdmin(): int
+    {
+        return $this->admin;
+    }
+
+    /**
+     * @param int $admin
+     * @return User
+     */
+    public function setAdmin(int $admin): User
+    {
+        $this->admin = $admin;
+        return $this;
+    }
+
+
 
 
 }

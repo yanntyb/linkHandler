@@ -20,7 +20,13 @@ if(isset($_GET["page"])){
             if(isset($_GET["sub"])){
                 switch($_GET["sub"]){
                     case "render":
-                        $controller->render_home();
+                        if(isset($_SESSION["user"])) {
+                            $user = unserialize($_SESSION["user"]);
+                            $controller->render_home($user);
+                        }
+                        else{
+                            header("Location: index.php?page=home&sub=login");
+                        }
                         break;
                     case "add":
                         if(isset($_SESSION["user"])){
@@ -39,20 +45,30 @@ if(isset($_GET["page"])){
                 }
             }
             else{
-                $controller->render_home();
+                header("Location: index.php?page=home&sub=render");
             }
             break;
         case "form":
             if(isset($_GET["sub"])) {
                 switch ($_GET["sub"]) {
                     case "link":
-                        $keys = ["href", "title", "target", "name"];
-                        if((new FormController)->checkForm($_POST, $keys)){
-                            (new LinkController)->add_link($_POST, $keys);
-                            header("Location: index.php?page=home");
+                        if(isset($_SESSION["user"])){
+                            $user = unserialize($_SESSION["user"]);
+                            $keys = ["href", "title", "target", "name"];
+                            if((new FormController)->checkForm($_POST, $keys)){
+                                if(!(new LinkController)->add_link($_POST, $keys,$user->getId())){
+                                    header("Location: index.php?page=home&error=Lien invalide&sub=render");
+                                    break;
+                                };
+                                header("Location: index.php");
+                                break;
+                            }
+                            else{
+                                header("Location: index.php?page=home&sub=add");
+                            }
                         }
                         else{
-                           header("Location: index.php?page=home&sub=add");
+                            header("Location: index.php?page=home&sub=add");
                         }
                         break;
                     case "login":
@@ -61,7 +77,7 @@ if(isset($_GET["page"])){
                             $user = (new UserController)->check_login($_POST,$keys);
                             if($user){
                                 $_SESSION['user'] = serialize($user);
-                                header("Location: index.php");
+                                header("Location: index.php?page=home");
                             }
                             else{
                                 header("Location: index.php?page=home&sub=login");
@@ -88,13 +104,21 @@ if(isset($_GET["page"])){
                     $link = $controller->exist($_GET["id"]);
                     if($link){
                         if(isset($_SESSION["user"])){
+                            $user = unserialize($_SESSION["user"]);
                             switch ($_GET["sub"]){
                                 case "delete":
-                                    $controller->delete($link);
+                                    if($link->getUser()->getId() === $user->getId() || $user->getAdmin() === 1){
+                                        $controller->delete($link);
+                                    }
                                     header("Location: index.php");
                                     break;
                                 case "edit":
-                                    $controller->render_edit($link);
+                                    if($link->getUser()->getId() === $user->getId() || $user->getAdmin() === 1){
+                                        $controller->render_edit($link);
+                                    }
+                                    else{
+                                        header("Location: index.php");
+                                    }
                                     break;
                             }
                         }

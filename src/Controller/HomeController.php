@@ -9,9 +9,26 @@ class HomeController
 {
     use RenderViewTrait;
 
-    public function render_home(){
-        $links = (new LinkManager)->getAllEntity();
-        $this->render("Home/home","Links Handler", $links);
+    public function render_home($user){
+        $manager = new LinkManager();
+        if($user->getAdmin() === 1){
+            $links = $manager->getAllEntity();
+        }
+        else{
+            $links = $manager->getAllEntity("user_fk",$user->getId());
+        }
+        if(isset($_GET["error"])){
+            $var = [
+                "links" => $links,
+                "error" => $_GET["error"]
+            ];
+        }
+        else{
+            $var = [
+                "links" => $links
+            ];
+        }
+        $this->render("Home/home","Links Handler", $var);
     }
 
     public function render_login(){

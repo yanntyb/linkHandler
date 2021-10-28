@@ -8,11 +8,12 @@ class LinkManager
 {
     use GlobalManagerTrait;
 
-    public function newLink(array $values){
-        $conn = $this->db->prepare("INSERT INTO link (href, title, target, name) VALUES (:href, :title, :target, :name)");
+    public function newLink(array $values, int $user_id){
+        $conn = $this->db->prepare("INSERT INTO link (href, title, target, name, user_fk) VALUES (:href, :title, :target, :name, :user)");
         foreach($values as $key => $value){
             $conn->bindValue(":{$key}", $value);
         }
+        $conn->bindValue(":user", $user_id);
         $conn->execute();
     }
 

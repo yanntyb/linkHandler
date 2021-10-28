@@ -8,6 +8,12 @@
     <title><?= $title ?></title>
 </head>
 <body>
+<?php
+    if(isset($var["error"])){?>
+        <div id="error"><?= $var["error"] ?></div>
+    <?php
+    }
+?>
 <?= $html ?>
 </body>
 <script src="https://kit.fontawesome.com/78e483bd6f.js" crossorigin="anonymous"></script>

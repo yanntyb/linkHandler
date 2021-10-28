@@ -3,6 +3,7 @@
 namespace Yanntyb\App\Controller;
 
 use Yanntyb\App\Model\Classes\Entity\link;
+use Yanntyb\App\Model\Classes\Entity\User;
 use Yanntyb\App\Model\Classes\Manager\LinkManager;
 use Yanntyb\App\Model\Traits\RenderViewTrait;
 
@@ -13,15 +14,25 @@ class LinkController
 
     use RenderViewTrait;
 
-    public function add_link($var, array $keys){
+    /**
+     * Add link to db
+     * @param $var
+     * @param array $keys
+     * @param $user_id
+     * @return bool
+     */
+    public function add_link($var, array $keys, $user_id): bool
+    {
         $tab = [];
         $manager = new LinkManager;
         foreach($keys as $key){
             $tab["$key"] = $manager->sanitize($var[$key]);
         }
         if($this->checkIfLinkIsReal($tab["href"])){
-            $manager->newLink($tab);
+            $manager->newLink($tab, $user_id);
+            return true;
         }
+        return false;
 
     }
 
