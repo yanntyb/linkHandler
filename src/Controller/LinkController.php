@@ -51,7 +51,10 @@ class LinkController
     }
 
     public function render_edit(Link $link){
-        $this->render("Link/edit","edit",$link);
+        $var = [
+            "link" => $link,
+        ];
+        $this->render("Link/edit","edit",$var);
     }
 
     public function render_form(){

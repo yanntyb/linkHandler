@@ -9,9 +9,10 @@
 </head>
 <body>
 <?php
-    if(isset($var["error"])){?>
-        <div id="error"><?= $var["error"] ?></div>
-    <?php
+    if(isset($var)){
+        if(isset($var["error"])){?>
+            <div id="error"><?= $var["error"] ?></div><?php
+        }
     }
 ?>
 <?= $html ?>
