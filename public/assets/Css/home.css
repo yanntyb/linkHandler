@@ -70,6 +70,16 @@
     color: #0067A0;
     text-decoration: none;
     font-size: 150%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.link-link > *{
+    width: 100%;
+    text-align: center;
 }
 
 .link-action a{

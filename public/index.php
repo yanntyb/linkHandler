@@ -74,13 +74,26 @@ if(isset($_GET["page"])){
                     case "login":
                         $keys = ["mail", "pass"];
                         if((new FormController)->checkForm($_POST,$keys)){
-                            $user = (new UserController)->check_login($_POST,$keys);
+                            $user = (new UserController)->check_login($_POST);
                             if($user){
                                 $_SESSION['user'] = serialize($user);
                                 header("Location: index.php?page=home");
                             }
                             else{
                                 header("Location: index.php?page=home&sub=login");
+                            }
+                        }
+                        break;
+                    case "register":
+                        $keys = ["mail", "pass", "re_pass"];
+                        if((new FormController)->checkForm($_POST,$keys)){
+                            $user = (new UserController)->register($_POST);
+                            if($user){
+                                $_SESSION["user"] = serialize($user);
+                                header("Location: index.php?page=home");
+                            }
+                            else{
+                                header("Location: index.php?page=login");
                             }
                         }
                         break;
