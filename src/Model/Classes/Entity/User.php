@@ -7,45 +7,45 @@ use Yanntyb\App\Model\Traits\GlobalEntityTrait;
 class User
 {
     use GlobalEntityTrait;
-    private string $nom;
-    private string $prenon;
     private string $mail;
     private string $pass;
     private int $admin;
+    private string $apikey;
+    private string $apisecret;
 
     /**
      * @return string
      */
-    public function getNom(): string
+    public function getApikey(): string
     {
-        return $this->nom;
+        return $this->apikey;
     }
 
     /**
-     * @param string $nom
+     * @param string $apikey
      * @return User
      */
-    public function setNom(string $nom): User
+    public function setApikey(string $apikey): User
     {
-        $this->nom = $nom;
+        $this->apikey = $apikey;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getPrenon(): string
+    public function getApisecret(): string
     {
-        return $this->prenon;
+        return $this->apisecret;
     }
 
     /**
-     * @param string $prenon
+     * @param string $apisecret
      * @return User
      */
-    public function setPrenon(string $prenon): User
+    public function setApisecret(string $apisecret): User
     {
-        $this->prenon = $prenon;
+        $this->apisecret = $apisecret;
         return $this;
     }
 

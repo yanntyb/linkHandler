@@ -72,6 +72,11 @@ class LinkController
         }
     }
 
+    /**
+     * Return true if the url is real
+     * @param string $link
+     * @return bool|void
+     */
     public function checkIfLinkIsReal(string $link){
         $url_status = UrlStatus::get($link);
         $http_status_code = $url_status->getStatusCode();
