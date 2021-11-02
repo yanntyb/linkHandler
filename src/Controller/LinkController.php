@@ -2,6 +2,7 @@
 
 namespace Yanntyb\App\Controller;
 
+use Yanntyb\App\Model\Classes\Entity\Image;
 use Yanntyb\App\Model\Classes\Entity\link;
 use Yanntyb\App\Model\Classes\Entity\User;
 use Yanntyb\App\Model\Classes\Manager\LinkManager;
@@ -83,5 +84,53 @@ class LinkController
         if($http_status_code == 200){
             return true;
         }
+    }
+
+    public function renderAll(){
+        $links = (new LinkManager)->getAllEntity();
+        $output = [];
+        /**
+         * @var Link $link
+         */
+        foreach($links as $link){
+            $user = $link->getUser();
+            $output[] = [
+                "href" => $link->getHref(),
+                "title" => $link->getTitle(),
+                "target" => $link->getTarget(),
+                "name" => $link->getName(),
+                "id" => $link->getId(),
+                "img" => (new Image($link))->getImgLink(),
+                "user" => [
+                    "mail" => $user->getMail(),
+                    "id" => $user->getId(),
+                ],
+            ];
+        }
+        echo json_encode($output);
+    }
+
+    public function renderConnected($userId){
+        $links = (new LinkManager)->getAllEntity("user_fk",$userId);
+        $output = [];
+        /**
+         * @var Link $link
+         */
+        foreach($links as $link){
+            $user = $link->getUser();
+            $output[] = [
+                "href" => $link->getHref(),
+                "title" => $link->getTitle(),
+                "target" => $link->getTarget(),
+                "name" => $link->getName(),
+                "id" => $link->getId(),
+                "img" => (new Image($link))->getImgLink(),
+                "user" => [
+                    "mail" => $user->getMail(),
+                    "id" => $user->getId(),
+                ],
+            ];
+        }
+        echo json_encode($output);
     }
 }

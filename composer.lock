@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc1c150a26f8c1dcfd7d3c5509bb5a95",
+    "content-hash": "544a833d50fa68d3fa82847b7c0df34f",
     "packages": [
         {
             "name": "muffeen/url-status",
@@ -58,6 +58,50 @@
                 "source": "https://github.com/mrethical/url-status/tree/master"
             },
             "time": "2020-03-25T06:22:42+00:00"
+        },
+        {
+            "name": "sebastiansulinski/sorter",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastiansulinski/sorter.git",
+                "reference": "6de3e2e70c1d87d987742b0a0a8b7f2149af5c37"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastiansulinski/sorter/zipball/6de3e2e70c1d87d987742b0a0a8b7f2149af5c37",
+                "reference": "6de3e2e70c1d87d987742b0a0a8b7f2149af5c37",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SSD\\": "src",
+                    "SSDTest\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Sulinski",
+                    "email": "info@ssdtutorials.com"
+                }
+            ],
+            "description": "Sort multidimensional arrays and objects.",
+            "support": {
+                "issues": "https://github.com/sebastiansulinski/sorter/issues",
+                "source": "https://github.com/sebastiansulinski/sorter/tree/v1.0.0"
+            },
+            "time": "2016-01-28T17:44:26+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",

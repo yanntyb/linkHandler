@@ -18,9 +18,13 @@ class LinkManager
     }
 
     public function delete(int $id){
+        $link = $this->getSingleEntity($id);
         $conn = $this->db->prepare("DELETE FROM link WHERE id = :id");
         $conn->bindValue(":id",$id);
         $conn->execute();
+        if (file_exists($_SERVER["DOCUMENT_ROOT"] ."/assets/thumb/{$link->getUser()->getId()}-{$link->getId()}.png")) {
+            unlink($_SERVER["DOCUMENT_ROOT"] ."/assets/thumb/{$link->getUser()->getId()}-{$link->getId()}.png");
+        }
     }
 
     public function edit(array $values){

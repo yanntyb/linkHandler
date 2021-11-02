@@ -2,6 +2,7 @@
 
 namespace Yanntyb\App\Controller;
 
+use Yanntyb\App\Model\Classes\Entity\User;
 use Yanntyb\App\Model\Classes\Manager\LinkManager;
 use Yanntyb\App\Model\Traits\RenderViewTrait;
 
@@ -20,12 +21,12 @@ class HomeController
         if(isset($_GET["error"])){
             $var = [
                 "links" => $links,
-                "error" => $_GET["error"]
+                "error" => $_GET["error"],
             ];
         }
         else{
             $var = [
-                "links" => $links
+                "links" => $links,
             ];
         }
         $this->render("Home/home","Links Handler", $var);
@@ -33,5 +34,12 @@ class HomeController
 
     public function render_login(){
         $this->render("Home/login", "Login");
+    }
+
+    public function render_profile(User $user){
+        $var = [
+            "user" => $user,
+        ];
+        $this->render("Home/profil","Profil",$var);
     }
 }

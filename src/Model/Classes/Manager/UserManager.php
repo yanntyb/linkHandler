@@ -28,4 +28,28 @@ class UserManager
         }
         return false;
     }
+
+    public function changePass(User $user, string $newPass){
+        $conn = $this->db->prepare("UPDATE user SET pass = :pass WHERE id = :id");
+        $conn->bindValue(":pass", $this->sanitize($newPass));
+        $conn->bindValue(":id", $user->getId());
+        $conn->execute();
+        return $this->getSingleEntity($user->getId());
+    }
+
+    public function changeApiKey(User $user, string $apiKey){
+        $conn = $this->db->prepare("UPDATE user SET apikey = :key WHERE id = :id");
+        $conn->bindValue(":key", $this->sanitize($apiKey));
+        $conn->bindValue(":id", $user->getId());
+        $conn->execute();
+        return $this->getSingleEntity($user->getId());
+    }
+
+    public function changeApiSecret(User $user, string $apiSecret){
+        $conn = $this->db->prepare("UPDATE user SET apisecret = :secret WHERE id = :id");
+        $conn->bindValue(":secret", $this->sanitize($apiSecret));
+        $conn->bindValue(":id", $user->getId());
+        $conn->execute();
+        return $this->getSingleEntity($user->getId());
+    }
 }

@@ -7,6 +7,7 @@ require "../vendor/autoload.php";
 
 use Yanntyb\App\Controller\FormController;
 use Yanntyb\App\Controller\LinkController;
+use Yanntyb\App\Controller\StatController;
 use Yanntyb\App\Controller\UserController;
 
 use Yanntyb\App\Controller\HomeController;
@@ -42,6 +43,15 @@ if(isset($_GET["page"])){
                     case "deco":
                         unset($_SESSION["user"]);
                         header("Location: index.php");
+                    case "profil":
+                        if(isset($_SESSION["user"])) {
+                            $user = unserialize($_SESSION["user"]);
+                            $controller->render_profile($user);
+                        }
+                        else{
+                            header("Location: index.php?page=home&sub=login");
+                        }
+                        break;
                 }
             }
             else{
@@ -107,6 +117,29 @@ if(isset($_GET["page"])){
                             header("Location: index.php?page=home&sub=add");
                         }
                         break;
+                    case "edit_profil":
+                        if(isset($_SESSION["user"])){
+                            $user = unserialize($_SESSION["user"]);
+                            //Change pass
+                            $keys = ["newPass", "oldPass"];
+                            if((new FormController)->checkForm($_POST, $keys)){
+                                (new UserController)->changePass($user, $_POST["newPass"], $_POST["oldPass"]);
+                            }
+
+                            //Change Embeb Api Key
+                            $keys = ["apiKey"];
+                            if((new FormController)->checkForm($_POST, $keys)){
+                                $_SESSION["user"] = serialize((new UserController)->changeApiKey($user,$_POST["apiKey"]));
+                            }
+
+                            //Change Api Secret
+                            $keys = ["apiSecret"];
+                            if((new FormController)->checkForm($_POST,$keys)){
+                                $_SESSION["user"] = serialize((new UserController)->changeApiSecret($user,$_POST["apiSecret"]));
+                            }
+
+                            header("Location: index.php");
+                        }
                 }
             }
             break;
@@ -141,6 +174,69 @@ if(isset($_GET["page"])){
                     }
                     else{
                         header("Location: index.php");
+                    }
+                }
+
+            }
+            break;
+        case "stat":
+            if(isset($_SESSION["user"])){
+                $user = unserialize($_SESSION["user"]);
+                if(isset($_GET["sub"])){
+                    switch ($_GET["sub"]){
+                        case "render":
+                            $controller = new StatController();
+                            if($user->getAdmin() === 1){
+                                $controller->renderAll();
+                            }
+                            else{
+                                $controller->renderSingle($user);
+                            }
+                            break;
+                        default:
+                            header("Location: index.php?page=stat&sub=render");
+                            break;
+                    }
+                }
+                else{
+                    header("Location: index.php?page=stat&sub=render");
+                }
+            }
+            else{
+                header("Location: index.php");
+            }
+            break;
+        case "info":
+            if(isset($_GET["sub"])){
+                switch ($_GET["sub"]){
+                    case "role":
+                        if(isset($_SESSION["user"])){
+                            $user = unserialize($_SESSION["user"]);
+                            echo json_encode(["role" => $user->getAdmin()]);
+                        }
+                        else{
+                            echo json_encode(["role" => "notConnected"]);
+                        }
+                }
+            }
+        case "link":
+            $controller = new LinkController();
+            if(isset($_GET["sub"])){
+                if(isset($_SESSION["user"])){
+                    $user = unserialize($_SESSION["user"]);
+                    switch($_GET["sub"]){
+                        case "admin":
+                            if($user->getAdmin() === 1){
+                                $controller->renderAll();
+                                break;
+                            }
+                            else{
+                                echo json_encode([]);
+                            }
+
+                        case "guest":
+                            $controller->renderConnected($user->getId());
+                            break;
                     }
                 }
 

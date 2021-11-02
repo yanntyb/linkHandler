@@ -22,6 +22,10 @@ body{
     animation-fill-mode: forwards;
 }
 
+i:hover{
+    cursor: pointer;
+}
+
 @keyframes error {
     from{
         height: 5%;

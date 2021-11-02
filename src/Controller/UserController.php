@@ -38,4 +38,19 @@ class UserController
         }
         return false;
     }
+
+    public function changePass(User $user, string $newPass, string $oldPass){
+        if($oldPass === $user->getPass()){
+            return (new UserManager())->changePass($user, $newPass);
+        }
+        return false;
+    }
+
+    public function changeApiKey(User $user, string $apiKey){
+        return (new UserManager())->changeApiKey($user, $apiKey);
+    }
+
+    public function changeApiSecret(User $user, string $apiSecret){
+        return (new UserManager())->changeApiSecret($user, $apiSecret);
+    }
 }

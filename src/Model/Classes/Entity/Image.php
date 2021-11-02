@@ -2,7 +2,7 @@
 
 namespace Yanntyb\App\Model\Classes\Entity;
 
-use JetBrains\PhpStorm\Pure;
+use Yanntyb\App\Model\Classes\Manager\LinkManager;
 
 class Image
 {
@@ -15,21 +15,21 @@ class Image
     public function thumbalizr(Link $link): string
     {
         if($link->getUser()->getApisecret() !== "0") {
-            if (!file_exists("/assets/thumb/{$link->getUser()->getId()}-{$link->getId()}")) {
-                $embed_key = $link->getUser()->getApikey(); # replace it with you Embed API key
-                $secret = $link->getUser()->getApisecret(); # replace it with your Secret
+            if (!file_exists($_SERVER["DOCUMENT_ROOT"] ."/assets/thumb/{$link->getUser()->getId()}-{$link->getId()}.png")) {
+                $embed_key = $link->getUser()->getApikey();
+                $secret = $link->getUser()->getApisecret();
 
                 $query = 'url=' . urlencode($link->getHref());
 
                 $token = md5($query . $secret);
 
-                file_put_contents("/assets/thumb/{$link->getUser()->getId()}-{$link->getId()}", file_get_contents("https://api.thumbalizr.com/api/v1/embed/{$embed_key}/{$token}/?{$query}"));
+                file_put_contents($_SERVER["DOCUMENT_ROOT"] ."/assets/thumb/{$link->getUser()->getId()}-{$link->getId()}.png", file_get_contents("https://api.thumbalizr.com/api/v1/embed/{$embed_key}/{$token}/?{$query}"));
             }
-            return "/assets/thumb/{$link->getUser()->getId()}-{$link->getId()}";
+            return "/assets/thumb/{$link->getUser()->getId()}-{$link->getId()}.png";
         }
         else{
-            if(file_exists("/assets/thumb/{$link->getUser()->getId()}-{$link->getId()}")){
-                return "/assets/thumb/{$link->getUser()->getId()}-{$link->getId()}";
+            if(file_exists($_SERVER["DOCUMENT_ROOT"] ."/assets/thumb/{$link->getUser()->getId()}-{$link->getId()}.png")){
+                return "/assets/thumb/{$link->getUser()->getId()}-{$link->getId()}.png";
             }
             return "/assets/misc/img.png";
         }

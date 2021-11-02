@@ -12,6 +12,7 @@ class link
     private string $target;
     private string $name;
     private User $user;
+    private int $used;
 
     /**
      * @return string
@@ -103,7 +104,21 @@ class link
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getUsed(): int
+    {
+        return $this->used;
+    }
 
-
-
+    /**
+     * @param int $used
+     * @return link
+     */
+    public function setUsed(int $used): link
+    {
+        $this->used = $used;
+        return $this;
+    }
 }
