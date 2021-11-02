@@ -161,4 +161,10 @@ class LinkController
         }
 
     }
+
+    public function edit($data){
+        dump($data);
+        $link = (new LinkManager)->getSingleEntity($data->id);
+        dump($link);
+    }
 }

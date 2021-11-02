@@ -245,10 +245,14 @@ if(isset($_GET["page"])){
                             else{
                                 echo json_encode([]);
                             }
-
+                            break;
                         case "guest":
                             $controller->renderConnected($user->getId());
                             break;
+                        case "edit":
+                            $data = json_decode(file_get_contents("php://input"));
+                            dump($data);
+                            //$controller->edit($data);
                     }
                 }
 

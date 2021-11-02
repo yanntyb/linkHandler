@@ -101,35 +101,93 @@ function editModal(link){
     modal.innerHTML =
         `
         <div id="modal-window">
-            <i class="delete fas fa-times"></i>
+            <i id="delete" class="fas fa-times"></i>
             <div id="info">
-                <div>
+                <div id="href">
                      <span>Href: ${link.href}</span>
-                     <input type="text">
+                     <div>
+                        <input class="check" type="checkbox">
+                        <input class="input" type="text">
+                    </div>
                 </div>
-                <div>
+                <div id="name">
                     <span>Name: ${link.name}</span>
-                     <input type="text">
+                    <div>
+                        <input class="check" type="checkbox">
+                        <input class="input"  type="text">
+                    </div>
                 </div>
-                <div>
+                <div id="title">
                     <span>Title: ${link.title}</span>
-                     <input type="text">
+                    <div>
+                        <input class="check"  type="checkbox">
+                        <input class="input"  type="text">
+                    </div>
                 </div>
-                <div>
+                <div id="target">
                     <span>Target: ${link.target}</span>
-                    <select name="target" id="">
-                        <option value="_self">self</option>
-                        <option value="_blank">blank</option>
-                        <option value="_parent">parent</option>
-                    <option value="_top">top</option>
-                </select>
+                    <div>
+                        <input class="check"  type="checkbox">
+                        <select class="input"  name="target" id="">
+                            <option value="_self">self</option>
+                            <option value="_blank">blank</option>
+                            <option value="_parent">parent</option>
+                        <option value="_top">top</option>
+                        </select>
+                    </div>
                 </div>
+            </div>
+            <div id="send">
+                <input id="modal-send" type="submit" value="Modifier">
             </div>
         </div>
         `
-    let remove = modal.getElementsByClassName("delete")[0];
+    let remove = modal.querySelector("#delete");
     remove.addEventListener("click", () => {
         closeModal();
+    })
+
+    let send = modal.querySelector("#modal-send");
+    send.addEventListener("click", () => {
+        let data = {};
+        let href = modal.querySelector("#href");
+        if(href.querySelector(".check").checked){
+            if(href.querySelector(".input").value !== ""){
+                data["href"] =  href.querySelector(".input").value;
+            }
+        }
+
+        let name = modal.querySelector("#name");
+        if(name.querySelector(".check").checked){
+            if(name.querySelector(".input").value !== ""){
+                data["name"] = name.querySelector(".input").value;
+            }
+        }
+
+        let title = modal.querySelector("#title");
+        if(title.querySelector(".check").checked){
+            if(title.querySelector(".input").value !== ""){
+                data["title"] =  title.querySelector(".input").value;
+            }
+        }
+
+        let target = modal.querySelector("#target");
+        if(target.querySelector(".check").checked){
+            data["target"]=  target.querySelector(".input").value;
+        }
+
+        if(data !== []){
+            data["id"] = link.id;
+            console.log(data);
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/index.php?page=link&sub=edit");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onload = () => {
+                checkRole(renderArticle,login);
+            }
+            xhr.send(JSON.stringify(data));
+        }
+
     })
 
 }

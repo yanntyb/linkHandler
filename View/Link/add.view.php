@@ -20,7 +20,7 @@
                 </select>
             </div>
             <div>
-                <input type="submit" value="Ajouter">
+                <input type="submit">
             </div>
         </form>
     </div>
