@@ -11,6 +11,7 @@ use Yanntyb\App\Controller\StatController;
 use Yanntyb\App\Controller\UserController;
 
 use Yanntyb\App\Controller\HomeController;
+use Yanntyb\App\Model\Classes\Manager\LinkManager;
 
 session_start();
 
@@ -156,7 +157,6 @@ if(isset($_GET["page"])){
                                     if($link->getUser()->getId() === $user->getId() || $user->getAdmin() === 1){
                                         $controller->delete($link);
                                     }
-                                    header("Location: index.php");
                                     break;
                                 case "edit":
                                     if($link->getUser()->getId() === $user->getId() || $user->getAdmin() === 1){
@@ -217,8 +217,20 @@ if(isset($_GET["page"])){
                         else{
                             echo json_encode(["role" => "notConnected"]);
                         }
+                        break;
+                    case "info":
+                        $controller = new LinkController();
+                        if(isset($_GET["id"])){
+                            if(isset($_SESSION["user"])) {
+                                $user = unserialize($_SESSION["user"]);
+                                $controller->renderInfo($_GET["id"],$user);
+                                break;
+                            }
+
+                        }
                 }
             }
+            break;
         case "link":
             $controller = new LinkController();
             if(isset($_GET["sub"])){

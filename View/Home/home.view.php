@@ -1,9 +1,7 @@
 <link rel="stylesheet" href="/assets/Css/home.css">
+<link rel="stylesheet" href="/assets/Css/modal_edit.css">
 <div id="action">
     <?php
-
-    use Yanntyb\App\Model\Classes\Entity\Image;
-
     if(isset($_SESSION["user"])){
         $user = unserialize($_SESSION["user"])?>
         <a id="action-left"  href="/?page=home&sub=add"><i class="fas fa-plus-square"></i><span>Ajouter un lien</span></a>

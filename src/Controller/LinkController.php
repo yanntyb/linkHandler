@@ -133,4 +133,32 @@ class LinkController
         }
         echo json_encode($output);
     }
+
+    public function renderInfo(int $id,User $user){
+        $link = (new LinkManager)->getSingleEntity($id);
+        if($link){
+            if($user->getAdmin() === 1 || $user->getId() === $link->getUser()->getId()){
+                echo json_encode([
+                    "access" => true,
+                    "href" => $link->getHref(),
+                    "title" => $link->getTitle(),
+                    "target" => $link->getTarget(),
+                    "name" => $link->getName(),
+                    "id" => $link->getId(),
+                    "img" => (new Image($link))->getImgLink(),
+                    "user" => [
+                        "mail" => $link->getUser()->getMail(),
+                        "id" => $link->getUser()->getId(),
+                    ],
+                ]);
+            }
+            else{
+                echo json_encode(["access" => false]);
+            }
+        }
+        else{
+            echo json_encode(["access" => false]);
+        }
+
+    }
 }
