@@ -163,8 +163,18 @@ class LinkController
     }
 
     public function edit($data){
-        dump($data);
-        $link = (new LinkManager)->getSingleEntity($data->id);
-        dump($link);
+        $manager = new LinkManager();
+        $link = $manager->getSingleEntity($data->id);
+        if($link){
+            $manager->edit($data);
+        }
+    }
+
+    public function addUsed(int $id){
+        $manager = new LinkManager();
+        $link = $manager->getSingleEntity($id);
+        if($link){
+            $manager->addUsed($link);
+        }
     }
 }

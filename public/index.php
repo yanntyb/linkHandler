@@ -252,7 +252,14 @@ if(isset($_GET["page"])){
                         case "edit":
                             $data = json_decode(file_get_contents("php://input"));
                             dump($data);
-                            //$controller->edit($data);
+                            $controller->edit($data);
+                            break;
+                        case "addUsed":
+                            $data = json_decode(file_get_contents("php://input"));
+                            if(isset($data->id)){
+                                $controller->addUsed($data->id);
+                            }
+                            break;
                     }
                 }
 

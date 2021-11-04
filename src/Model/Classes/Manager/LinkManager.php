@@ -2,6 +2,7 @@
 
 namespace Yanntyb\App\Model\Classes\Manager;
 
+use Yanntyb\App\Model\Classes\Entity\link;
 use Yanntyb\App\Model\Traits\GlobalManagerTrait;
 
 class LinkManager
@@ -27,11 +28,19 @@ class LinkManager
         }
     }
 
-    public function edit(array $values){
+    public function edit($values){
+        dump($values);
         $conn = $this->db->prepare("UPDATE link SET href = :href, title = :title, target = :target, name = :name WHERE id = :id");
         foreach($values as $key => $value){
             $conn->bindValue(":{$key}", $value);
         }
+        $conn->execute();
+    }
+
+    public function addUsed(Link $link){
+        $conn = $this->db->prepare("UPDATE link SET used = :used WHERE id = :id");
+        $conn->bindValue(":id",$link->getId());
+        $conn->bindValue(":used", $link->getUsed() + 1);
         $conn->execute();
     }
 }

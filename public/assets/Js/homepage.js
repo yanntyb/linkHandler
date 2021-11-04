@@ -36,6 +36,7 @@ function renderArticle(links){
         const linkCont = document.createElement("div");
         linkCont.className = "link-cont";
         main.appendChild(linkCont);
+        linkCont.dataset.id = link.id;
         linkCont.innerHTML = `
                     <div style="background-image: url('${link.img}') " class="link-img">
                         <div class="link-action">
@@ -58,6 +59,10 @@ function renderArticle(links){
         const edit = linkCont.getElementsByClassName("edit")[0];
         edit.addEventListener("click", () => {
             editLink(edit.dataset.id);
+        })
+
+        linkCont.getElementsByClassName("link-title")[0].addEventListener("click",() => {
+            countUsed(linkCont.dataset.id);
         })
     }
 }
@@ -88,7 +93,6 @@ function editLink(id){
     xhr.send();
 }
 
-
 function editModal(link){
     const main = document.getElementById("main");
     let modal = document.getElementById("modal-main")
@@ -104,33 +108,29 @@ function editModal(link){
             <i id="delete" class="fas fa-times"></i>
             <div id="info">
                 <div id="href">
-                     <span>Href: ${link.href}</span>
+                     <span>Href:</span>
                      <div>
-                        <input class="check" type="checkbox">
-                        <input class="input" type="text">
+                        <input class="input" type="text" value="${link.href}">
                     </div>
                 </div>
                 <div id="name">
-                    <span>Name: ${link.name}</span>
+                    <span>Name:</span>
                     <div>
-                        <input class="check" type="checkbox">
-                        <input class="input"  type="text">
+                        <input class="input"  type="text" value="${link.name}">
                     </div>
                 </div>
                 <div id="title">
-                    <span>Title: ${link.title}</span>
+                    <span>Title:</span>
                     <div>
-                        <input class="check"  type="checkbox">
-                        <input class="input"  type="text">
+                        <input class="input"  type="text" value="${link.title}">
                     </div>
                 </div>
                 <div id="target">
-                    <span>Target: ${link.target}</span>
+                    <span>Target:</span>
                     <div>
-                        <input class="check"  type="checkbox">
-                        <select class="input"  name="target" id="">
+                        <select class="input"  name="target">
                             <option value="_self">self</option>
-                            <option value="_blank">blank</option>
+                            <option value="_blank" selected>blank</option>
                             <option value="_parent">parent</option>
                         <option value="_top">top</option>
                         </select>
@@ -151,30 +151,22 @@ function editModal(link){
     send.addEventListener("click", () => {
         let data = {};
         let href = modal.querySelector("#href");
-        if(href.querySelector(".check").checked){
-            if(href.querySelector(".input").value !== ""){
-                data["href"] =  href.querySelector(".input").value;
-            }
+        if(href.querySelector(".input").value !== ""){
+            data["href"] =  href.querySelector(".input").value;
         }
 
         let name = modal.querySelector("#name");
-        if(name.querySelector(".check").checked){
-            if(name.querySelector(".input").value !== ""){
-                data["name"] = name.querySelector(".input").value;
-            }
+        if(name.querySelector(".input").value !== ""){
+            data["name"] = name.querySelector(".input").value;
         }
 
         let title = modal.querySelector("#title");
-        if(title.querySelector(".check").checked){
-            if(title.querySelector(".input").value !== ""){
-                data["title"] =  title.querySelector(".input").value;
-            }
+        if(title.querySelector(".input").value !== ""){
+            data["title"] =  title.querySelector(".input").value;
         }
 
         let target = modal.querySelector("#target");
-        if(target.querySelector(".check").checked){
-            data["target"]=  target.querySelector(".input").value;
-        }
+        data["target"] = target.querySelector(".input").value;
 
         if(data !== []){
             data["id"] = link.id;
@@ -189,15 +181,19 @@ function editModal(link){
         }
 
     })
-
 }
-
 
 function closeModal() {
     let modal = document.getElementById("modal-main")
     if(modal !== null){
         modal.remove();
     }
+}
+
+function countUsed(linkId){
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/index.php?page=link&sub=addUsed");
+    xhr.send(JSON.stringify({"id": linkId}));
 }
 
 checkRole(renderArticle,login);
