@@ -186,12 +186,7 @@ if(isset($_GET["page"])){
                     switch ($_GET["sub"]){
                         case "render":
                             $controller = new StatController();
-                            if($user->getAdmin() === 1){
-                                $controller->renderAll();
-                            }
-                            else{
-                                $controller->renderSingle($user);
-                            }
+                            $controller->renderAll();
                             break;
                         default:
                             header("Location: index.php?page=stat&sub=render");

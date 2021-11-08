@@ -389,7 +389,7 @@ function globalStat(){
             data: {
                 labels: Object.keys(response.by_user),
                 datasets: [{
-                    label: "Nombre de lien identique",
+                    label: "Nombre de lien par User",
                     data: data,
                     backgroundColor: ["Red"]
                 }]
