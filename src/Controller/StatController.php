@@ -36,8 +36,37 @@ class StatController
             "by_user" => (new Sorter($usersLinks))->asc("count")->collection(),
         ];
 
-        dump($name);
+        $outputName = [];
 
-        dump($var);
+        foreach($var["by_name"] as $data){
+            $outputName[$data[0]->getHref()] = 0;
+            foreach(array_slice($data,1) as $single){
+                $outputName[$data[0]->getHref()]++;
+            }
+        }
+
+
+        $outputUser = [];
+        foreach($var["by_user"] as $data){
+            $outputUser[$data[0]->getUser()->getMail()] = 0;
+            foreach(array_slice($data,1) as $single){
+                $outputUser[$data[0]->getUser()->getMail()]++;
+            }
+        }
+
+        $output = [
+            "by_name" => array_reverse($outputName),
+            "by_user" => array_reverse($outputUser),
+        ];
+
+        echo json_encode($output);
+    }
+
+    public function renderSingle(int $id){
+        $link = (new LinkManager)->getSingleEntity($id);
+        echo json_encode([
+            "user" => $link->getUser()->getMail(),
+            "clic" => $link->getUsed()
+        ]);
     }
 }

@@ -26,10 +26,10 @@ class LinkController
     {
         $tab = [];
         $manager = new LinkManager;
-        foreach($keys as $key){
+        foreach ($keys as $key) {
             $tab["$key"] = $manager->sanitize($var[$key]);
         }
-        if($this->checkIfLinkIsReal($tab["href"])){
+        if ($this->checkIfLinkIsReal($tab["href"])) {
             $manager->newLink($tab, $user_id);
             return true;
         }
@@ -37,38 +37,43 @@ class LinkController
 
     }
 
-    public function delete(Link $link){
+    public function delete(Link $link)
+    {
         $manager = new LinkManager;
         $manager->delete($link->getId());
     }
 
-    public function exist(int $id){
+    public function exist(int $id)
+    {
         $manager = new LinkManager;
         $link = $manager->getSingleEntity($id);
-        if($link){
+        if ($link) {
             return $link;
         }
         return false;
     }
 
-    public function render_edit(Link $link){
+    public function render_edit(Link $link)
+    {
         $var = [
             "link" => $link,
         ];
-        $this->render("Link/edit","edit",$var);
+        $this->render("Link/edit", "edit", $var);
     }
 
-    public function render_form(){
-        $this->render("Link/add","Add a link");
+    public function render_form()
+    {
+        $this->render("Link/add", "Add a link");
     }
 
-    public function modify_link($var, array $keys){
+    public function modify_link($var, array $keys)
+    {
         $tab = [];
         $manager = new LinkManager;
-        foreach($keys as $key){
+        foreach ($keys as $key) {
             $tab["$key"] = $manager->sanitize($var[$key]);
         }
-        if($this->checkIfLinkIsReal($tab["href"])){
+        if ($this->checkIfLinkIsReal($tab["href"])) {
             $manager->edit($tab);
         }
     }
@@ -78,21 +83,23 @@ class LinkController
      * @param string $link
      * @return bool|void
      */
-    public function checkIfLinkIsReal(string $link){
+    public function checkIfLinkIsReal(string $link)
+    {
         $url_status = UrlStatus::get($link);
         $http_status_code = $url_status->getStatusCode();
-        if($http_status_code == 200){
+        if ($http_status_code == 200) {
             return true;
         }
     }
 
-    public function renderAll(){
+    public function renderAll()
+    {
         $links = (new LinkManager)->getAllEntity();
         $output = [];
         /**
          * @var Link $link
          */
-        foreach($links as $link){
+        foreach ($links as $link) {
             $user = $link->getUser();
             $output[] = [
                 "href" => $link->getHref(),
@@ -110,13 +117,14 @@ class LinkController
         echo json_encode($output);
     }
 
-    public function renderConnected($userId){
-        $links = (new LinkManager)->getAllEntity("user_fk",$userId);
+    public function renderConnected($userId)
+    {
+        $links = (new LinkManager)->getAllEntity("user_fk", $userId);
         $output = [];
         /**
          * @var Link $link
          */
-        foreach($links as $link){
+        foreach ($links as $link) {
             $user = $link->getUser();
             $output[] = [
                 "href" => $link->getHref(),
@@ -134,10 +142,11 @@ class LinkController
         echo json_encode($output);
     }
 
-    public function renderInfo(int $id,User $user){
+    public function renderInfo(int $id, User $user)
+    {
         $link = (new LinkManager)->getSingleEntity($id);
-        if($link){
-            if($user->getAdmin() === 1 || $user->getId() === $link->getUser()->getId()){
+        if ($link) {
+            if ($user->getAdmin() === 1 || $user->getId() === $link->getUser()->getId()) {
                 echo json_encode([
                     "access" => true,
                     "href" => $link->getHref(),
@@ -151,30 +160,35 @@ class LinkController
                         "id" => $link->getUser()->getId(),
                     ],
                 ]);
-            }
-            else{
+            } else {
                 echo json_encode(["access" => false]);
             }
-        }
-        else{
+        } else {
             echo json_encode(["access" => false]);
         }
 
     }
 
-    public function edit($data){
+    public function edit($data)
+    {
         $manager = new LinkManager();
         $link = $manager->getSingleEntity($data->id);
-        if($link){
+        if ($link) {
             $manager->edit($data);
         }
     }
 
-    public function addUsed(int $id){
+    public function addUsed(int $id)
+    {
         $manager = new LinkManager();
         $link = $manager->getSingleEntity($id);
-        if($link){
+        if ($link) {
             $manager->addUsed($link);
         }
+    }
+
+    public function addLink($data, $userId)
+    {
+        (new LinkManager)->newLink($data, $userId);
     }
 }

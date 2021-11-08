@@ -224,9 +224,14 @@ if(isset($_GET["page"])){
                             if(isset($_SESSION["user"])) {
                                 $user = unserialize($_SESSION["user"]);
                                 $controller->renderInfo($_GET["id"],$user);
-                                break;
                             }
-
+                        }
+                        break;
+                    case "statSingle":
+                        $controller = new StatController();
+                        $data = json_decode(file_get_contents("php://input"));
+                        if((new LinkController)->exist($data->id)){
+                            $controller->renderSingle($data->id);
                         }
                 }
             }
@@ -251,7 +256,6 @@ if(isset($_GET["page"])){
                             break;
                         case "edit":
                             $data = json_decode(file_get_contents("php://input"));
-                            dump($data);
                             $controller->edit($data);
                             break;
                         case "addUsed":
@@ -260,6 +264,9 @@ if(isset($_GET["page"])){
                                 $controller->addUsed($data->id);
                             }
                             break;
+                        case "add":
+                            $data = json_decode(file_get_contents("php://input"));
+                            $controller->addLink($data, $user->getId());
                     }
                 }
 

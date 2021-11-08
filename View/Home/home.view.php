@@ -4,11 +4,15 @@
     <?php
     if(isset($_SESSION["user"])){
         $user = unserialize($_SESSION["user"])?>
-        <a id="action-left"  href="/?page=home&sub=add"><i class="fas fa-plus-square"></i><span>Ajouter un lien</span></a>
+        <a id="action-left"  href="/?page=home&sub=add">
+            <div id="add-link">
+                <i class="fas fa-plus-square"></i><span>Ajouter un lien</span>
+            </div>
+        </a>
         <div>
             <a href="/?page=home&sub=deco">Déconnexion</a>
             <a href="/?page=home&sub=profil">Profil</a>
-            <a href="/?page=stat&sub=render">Statistique</a>
+            <a id="stat" href="/?page=stat&sub=render">Statistique</a>
         </div>
         <?php
     }
